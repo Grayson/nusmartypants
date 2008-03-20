@@ -10,4 +10,4 @@ NuSmartyPants is an implementation of [Markdown][md] in [Nu][nu].
 Author
 ------
 [Grayson Hansard](mailto:info@fromconcentratesoftware.com)
-[http://www.fromconcentratesoftware.com/][]
+[From Concentrate Software](http://www.fromconcentratesoftware.com/)
