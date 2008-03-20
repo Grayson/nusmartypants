@@ -1,9 +1,9 @@
 NuSmartyPants
 =============
 
-NuSmartyPants is an implementation of [Markdown][md] in [Nu][nu].
+NuSmartyPants is an implementation of [SmartyPants][sp] in [Nu][nu].
 
-[md]: http://daringfireball.net/projects/smartypants
+[sp]: http://daringfireball.net/projects/smartypants
 [nu]: http://programming.nu
 
 
