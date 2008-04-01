@@ -17,14 +17,14 @@
      )
 
 (function smartypants_ProcessEscapes (str)
-     (set str ((regex ("\\\\ " substringToIndex:3)) replaceWithString:"&#92;" inString:str))
-     (set str (/"/  replaceWithString:"&#34;" inString:str))
-     (set str ((regex "\\\'") replaceWithString:"&#39;" inString:str))
-     (set str ((regex "\\\. ") replaceWithString:"&#46;" inString:str))
-     (set str ((regex "\\-") replaceWithString:"&#45;" inString:str))
-     (set str ((regex "\\`") replaceWithString:"&#96;" inString:str))
-     (str)
-     )
+     ; (set str ((regex ("\\\\ " substringToIndex:3)) replaceWithString:"&#92;" inString:str))
+	(set str (/\\\\/x replaceWithString:"&#92;" inString:str))
+	(set str (/\\"/x replaceWithString:"$#34;" inString:str))
+	(set str (/\\'/x replaceWithString:"&#39;" inString:str))
+	(set str (/\\\./x replaceWithString:"&#46;" inString:str))
+	(set str (/\\-/x replaceWithString:"&#45;" inString:str))
+	(set str (/\\`/x replaceWithString:"&#96;" inString:str))
+    str)
 
 (function smartypants_EducateQuotes (str)
      (set punct_class "[!\"#\$\%'()*+,-.\/:;<=>?\@\[\\\]\^_`{|}~]")
@@ -75,12 +75,16 @@
                                 (if (== in_pre 0)
                                     (set value (smartypants_ProcessEscapes value))
                                     (set value ((regex "&quot;") replaceWithString:"\"" inString:value)) ; Ignoring an if from the original source
-                                    (set value ((regex "--") replaceWithString:"&#8212;" inString:value)) ; Educate dashes
-                                    (set value (/\.\.\./ replaceWithString:"&#8230;" inString:value)) ; Educate ellipses
+									; Educate dashes
+									(set value (/---/ replaceWithString:"&#8211;" inString:value))
+                                    (set value (/--/ replaceWithString:"&#8212;" inString:value))
+
+									; Educate ellipses
+                                    (set value (/\. ?\. ?\./ replaceWithString:"&#8230;" inString:value))
                                     
                                     ; Educate backticks
-                                    (set value ((regex "``") replaceWithString:"&#8220;" inString:value))
-                                    (set value ((regex "''") replaceWithString:"&#8221;" inString:value))
+                                    (set value (/``/ replaceWithString:"&#8220;" inString:value))
+                                    (set value (/''/ replaceWithString:"&#8221;" inString:value))
                                     ; Educate single backticks
                                     (set value ((regex "`") replaceWithString:"&#8216;" inString:value))
                                     (set value ((regex "''") replaceWithString:"&#8217;" inString:value))
