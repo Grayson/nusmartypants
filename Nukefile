@@ -1,10 +1,13 @@
 ;; source files
-(set @nu_files 	  (filelist "^nu/.*nu$"))
+(set @m_files     (array "./smartypants.m"))
+(set @nu_files 	  (array "./smartypants.nu"))
 
 ;; framework description
 (set @framework "SmartyPants")
 (set @framework_identifier   "nu.programming.smartypants")
 (set @framework_creator_code "????")
+(set @framework_initializer  "SmartyPantsInit")
+
 
 (set @frameworks  '("Cocoa" "Nu"))
 (set @includes    "")
