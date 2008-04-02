@@ -15,8 +15,6 @@
 		(arr addObject:(list "tag" wholeTag))
 		(set used (+ secStart (wholeTag length))) ))
 	(arr addObject:(list "text" (str substringFromIndex:used)))
-	(arr each:(do (a) (puts (a stringValue))))
-	(puts "--")
 	(arr))
 
 (function smartypants_ProcessEscapes (str)
