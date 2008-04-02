@@ -3,15 +3,20 @@
 
 (function smartypants_tokenize (str)
 	(set arr (NSMutableArray array))
-	(set r (regex "<.*?>")) ; Cheat.  The real smartypants is much smarter about HTML tags.
+	(set r /(?s: <! ( -- .*? -- \s* )+ > ) |  # comment
+			(?s: <\? .*? \?> ) |              # processing instruction
+			(?:<(?:[^<>]|(?:<(?:[^<>]|(?:<(?:[^<>]|(?:<(?:[^<>]|(?:<(?:[^<>]|(?:<(?:[^<>])*>))*>))*>))*>))*>))*>)/x)
 	(set used 0)
 	((r findAllInString:str) each: (do (m)
-		(set tag (m group))
-		(set idx (car (m range)))
-		(arr addObject:(list "text" (str substringToIndex:idx)))
-		(arr addObject:(list "tag" tag))
-		(set used (+ idx (tag length))) ))
+		(set wholeTag (m group))
+		(set secStart (car (m range)))
+		(set tagStart (- secStart (wholeTag length)))
+		(if (< used tagStart) (arr addObject:(list "text" (str substringWithRange:(list used (- secStart used)) )) ))
+		(arr addObject:(list "tag" wholeTag))
+		(set used (+ secStart (wholeTag length))) ))
 	(arr addObject:(list "text" (str substringFromIndex:used)))
+	(arr each:(do (a) (puts (a stringValue))))
+	(puts "--")
 	(arr))
 
 (function smartypants_ProcessEscapes (str)
