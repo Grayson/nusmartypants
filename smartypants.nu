@@ -2,24 +2,22 @@
 ; Development and maintenance on smartypants.nu by Grayson Hansard <info@fromconcentratesoftware.com> 2007
 
 (function smartypants_tokenize (str)
-     (set array (NSMutableArray array))
-     (set r (regex "<.*?>")) ; Cheat.  The real smartypants is much smarter about HTML tags.
-     (set used 0)
-     ((r findAllInString:str) each: (do (m)
-                                        (set tag (m group))
-                                        (set idx (head (str rangeOfString:tag)))
-                                        (array addObject:(list "text" (str substringToIndex:idx)))
-                                        (array addObject:(list "tag" tag))
-                                        (set used (+ used idx (tag length)))
-                                        ))
-     (array addObject:(list "text" (str substringFromIndex:used)))
-     (array)
-     )
+	(set arr (NSMutableArray array))
+	(set r (regex "<.*?>")) ; Cheat.  The real smartypants is much smarter about HTML tags.
+	(set used 0)
+	((r findAllInString:str) each: (do (m)
+		(set tag (m group))
+		(set idx (car (m range)))
+		(arr addObject:(list "text" (str substringToIndex:idx)))
+		(arr addObject:(list "tag" tag))
+		(set used (+ idx (tag length))) ))
+	(arr addObject:(list "text" (str substringFromIndex:used)))
+	(arr))
 
 (function smartypants_ProcessEscapes (str)
      ; (set str ((regex ("\\\\ " substringToIndex:3)) replaceWithString:"&#92;" inString:str))
 	(set str (/\\\\/x replaceWithString:"&#92;" inString:str))
-	(set str (/\\"/x replaceWithString:"$#34;" inString:str))
+	(set str (/\\"/x replaceWithString:"&#34;" inString:str))
 	(set str (/\\'/x replaceWithString:"&#39;" inString:str))
 	(set str (/\\\./x replaceWithString:"&#46;" inString:str))
 	(set str (/\\-/x replaceWithString:"&#45;" inString:str))
@@ -55,7 +53,9 @@
      (str)
      )
 
-(class NSString (- lastCharacter is (self substringFromIndex:(- (self length) 1))))
+(class NSString (- lastCharacter is 
+	(if (== (self length) 0) ("")
+	(else (self substringFromIndex:(- (self length) 1))))))
 
 (function SmartyPants (str)
      ;; Does this document SmartyPants?
