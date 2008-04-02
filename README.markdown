@@ -12,3 +12,7 @@ Author
 ------
 [Grayson Hansard](mailto:info@fromconcentratesoftware.com)  
 [From Concentrate Software](http://www.fromconcentratesoftware.com/)
+
+Many thanks to
+--------------
+[Patrick Thomson](http://importantshock.wordpress.com/)
